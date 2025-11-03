@@ -153,8 +153,8 @@
   <div class="table-grid" id="tableContainer"></div>
 
   <div class="footer-buttons">
-    <button onclick="goHome()">Back to Home Page</button>
-    <button onclick="goBack()">Back</button>
+    <button onclick="playClick(); goHome()">Back to Home Page</button>
+    <button onclick="playClick(); goBack()">Back</button>
   </div>
 
   <!-- POPUP -->
@@ -162,20 +162,20 @@
     <div id="popup-header">จำนวนลูกค้า</div>
     <div id="customerCount"></div>
     <div class="keypad">
-      <button onclick="appendDigit('1')">1</button>
-      <button onclick="appendDigit('2')">2</button>
-      <button onclick="appendDigit('3')">3</button>
-      <button onclick="appendDigit('4')">4</button>
-      <button onclick="appendDigit('5')">5</button>
-      <button onclick="appendDigit('6')">6</button>
-      <button onclick="appendDigit('7')">7</button>
-      <button onclick="appendDigit('8')">8</button>
-      <button onclick="appendDigit('9')">9</button>
-      <button onclick="clearCount()">ยกเลิก</button>
-      <button onclick="appendDigit('0')">0</button>
-      <button onclick="backspace()">X</button>
+      <button onclick="playClick(); appendDigit('1')">1</button>
+      <button onclick="playClick(); appendDigit('2')">2</button>
+      <button onclick="playClick(); appendDigit('3')">3</button>
+      <button onclick="playClick(); appendDigit('4')">4</button>
+      <button onclick="playClick(); appendDigit('5')">5</button>
+      <button onclick="playClick(); appendDigit('6')">6</button>
+      <button onclick="playClick(); appendDigit('7')">7</button>
+      <button onclick="playClick(); appendDigit('8')">8</button>
+      <button onclick="playClick(); appendDigit('9')">9</button>
+      <button onclick="playClick(); clearCount()">ยกเลิก</button>
+      <button onclick="playClick(); appendDigit('0')">0</button>
+      <button onclick="playClick(); backspace()">X</button>
     </div>
-    <button id="startOrderBtn" onclick="startOrder()">เริ่มสั่งอาหาร +</button>
+    <button id="startOrderBtn" onclick="playClick(); startOrder()">เริ่มสั่งอาหาร +</button>
   </div>
 
   <script>
@@ -192,6 +192,7 @@
         btn.className = "table-button";
         btn.innerText = `โต๊ะ ${i}`;
         btn.onclick = function () {
+          playClick(); // ✅ เพิ่มเสียงคลิก
           document.querySelectorAll('.table-button').forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           selectedTable = i;
@@ -220,13 +221,14 @@
       customerCountEl.innerText = "";
     }
 
-          function startOrder() {
-          if (customerCount === "") {
-            alert("กรุณากรอกจำนวนลูกค้า");
-            return;
-          }
-          document.getElementById("popup").style.display = "none";
-          window.location.href = "https://golf11221122.github.io/pos/ordermenu.html";
+    function startOrder() {
+      if (customerCount === "") {
+        playError();
+        alert("กรุณากรอกจำนวนลูกค้า");
+        return;
+      }
+      popup.style.display = "none";
+      window.location.href = "ordermenu.html";
     }
 
     function goHome() {
@@ -237,7 +239,7 @@
       window.history.back();
     }
 
-    // กลับหน้าแรกถ้าไม่มีการใช้งาน 5 นาที
+    // Auto return after 5 min inactivity
     let timeout;
     function resetTimer() {
       clearTimeout(timeout);
@@ -254,35 +256,56 @@
     window.onkeydown = resetTimer;
   </script>
 
+  <script>
+    let audioCtx;
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
 
-<script>
-const clickSound = new AudioContext();
-function playClick(){
-  const o = clickSound.createOscillator();
-  const g = clickSound.createGain();
-  o.connect(g); g.connect(clickSound.destination);
-  o.type = "square"; o.frequency.setValueAtTime(600, clickSound.currentTime);
-  g.gain.setValueAtTime(0.05, clickSound.currentTime);
-  o.start(); o.stop(clickSound.currentTime + 0.1);
-  if (navigator.vibrate) navigator.vibrate(40);
-}
-function playError(){
-  const o = clickSound.createOscillator();
-  const g = clickSound.createGain();
-  o.connect(g); g.connect(clickSound.destination);
-  o.type = "sawtooth"; o.frequency.setValueAtTime(200, clickSound.currentTime);
-  g.gain.setValueAtTime(0.1, clickSound.currentTime);
-  o.start(); o.stop(clickSound.currentTime + 0.2);
-  if (navigator.vibrate) navigator.vibrate([100,60,100]);
-}
-document.addEventListener("DOMContentLoaded",()=>{
-  document.querySelectorAll('button,a').forEach(el=>{
-    el.addEventListener('click',playClick);
-  });
-});
-const _alert=window.alert;
-window.alert=function(msg){playError();_alert(msg);};
-</script>
+    function playClick() {
+      initAudio();
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g);
+      g.connect(audioCtx.destination);
+      o.type = "square";
+      o.frequency.setValueAtTime(550, audioCtx.currentTime);
+      g.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      o.start();
+      o.stop(audioCtx.currentTime + 0.1);
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+
+    function playError() {
+      initAudio();
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g);
+      g.connect(audioCtx.destination);
+      o.type = "sawtooth";
+      o.frequency.setValueAtTime(200, audioCtx.currentTime);
+      g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      o.start();
+      o.stop(audioCtx.currentTime + 0.25);
+      if (navigator.vibrate) navigator.vibrate([100, 60, 100]);
+    }
+
+    // ✅ ทำให้ Chrome ปลดล็อกเสียงเมื่อผู้ใช้คลิกครั้งแรก
+    document.addEventListener("click", () => {
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      } else if (!audioCtx) {
+        initAudio();
+      }
+    }, { once: true });
+
+    // เสียงตอนกด alert
+    const _alert = window.alert;
+    window.alert = function(msg) {
+      playError();
+      _alert(msg);
+    };
+  </script>
 
 </body>
 </html>

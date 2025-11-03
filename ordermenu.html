@@ -542,6 +542,15 @@
     <button onclick="playClick(); confirmQR()">✅ ชำระเงินเสร็จแล้ว</button>
   </div>
 
+  <!-- Popup การชำระเงิน -->
+<div class="popup" id="paymentPopup">
+  <h3>เลือกวิธีชำระเงิน</h3>
+  <div class="payment-buttons">
+    <button onclick="playClick(); payCash()">💵 เงินสด</button>
+    <button onclick="playClick(); payQR()">📱 QR Code</button>
+  </div>
+</div>
+
   <!-- Popup ใบเสร็จ -->
   <div class="popup" id="receiptPopup" style="width:360px;text-align:left;">
     <div class="receipt-header">

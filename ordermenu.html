@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="th">
 
@@ -273,6 +272,7 @@
       background: linear-gradient(90deg, #FFC04D, #FFA500) !important;
     }
 
+    /* 🔧 ปรับขนาดใบเสร็จและ QR Code ไม่ให้ใหญ่เกินไป */
     #receiptPopup {
       width: 320px !important;
       max-height: 90vh;
@@ -286,6 +286,7 @@
       margin: 0 auto 6px;
     }
 
+    /* จำกัดขนาด QR Code */
     #qrPopup img {
       width: 180px !important;
       height: auto;
@@ -299,6 +300,7 @@
       border: 1px solid #ccc;
     }
 
+    /* ปรับขนาด QR และป๊อปอัปให้ดูดีขึ้น */
     #qrPopup {
       width: 320px;
       text-align: center;
@@ -336,6 +338,7 @@
       transform: scale(1.05);
     }
 
+    /* ปรับ UI ของใบเสร็จให้สวยขึ้น */
     #receiptPopup {
       width: 320px !important;
       max-height: 90vh;
@@ -384,6 +387,8 @@
       margin-bottom: 6px;
     }
 
+
+    /* ซ่อนปุ่มตอนพิมพ์ */
     @media print {
       #receiptPopup button {
         display: none !important;
@@ -403,6 +408,7 @@
       font-size: 0.95rem;
     }
 
+    /* ซ่อนปุ่มตอนพิมพ์ */
     @media print {
       #receiptPopup button {
         display: none !important;
@@ -450,118 +456,26 @@
       background: linear-gradient(90deg, #666, #444);
     }
 
-    /* 🛒 ไอคอนตะกร้าสำหรับมือถือ */
-    .cart-icon {
-      display: none;
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, var(--orange), var(--orange-2));
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      z-index: 1001;
-      transition: transform 0.2s ease;
-    }
-
-    .cart-icon:hover {
-      transform: scale(1.1);
-    }
-
-    .cart-badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #FF4500;
-      color: white;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    /* 🛒 Popup ตะกร้าสำหรับมือถือ */
-    .mobile-cart-popup {
-      display: none;
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 85%;
-      max-width: 400px;
-      height: 100%;
-      background: white;
-      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
-      z-index: 1002;
-      overflow-y: auto;
-      transition: right 0.3s ease;
-      padding: 20px;
-    }
-
-    .mobile-cart-popup.show {
-      right: 0;
-    }
-
-    .mobile-cart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 10px;
-    }
-
-    .mobile-cart-header h3 {
-      margin: 0;
-      color: #002366;
-    }
-
-    .close-cart {
-      background: none;
-      border: none;
-      font-size: 1.8rem;
-      color: #002366;
-      cursor: pointer;
-    }
-
     /* 📱 ปรับ layout สำหรับมือถือ */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
 
-      .order-summary {
-        display: none !important; /* ซ่อนบนมือถือ */
-      }
+  .order-summary {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    margin: 0 0 10px 0;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
 
-      .cart-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .mobile-cart-popup {
-        display: block;
-      }
-
-      .menu-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      }
-    }
-
-    @media (min-width: 769px) {
-      .cart-icon {
-        display: none !important;
-      }
-    }
+  .menu-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
 
   </style>
 
@@ -569,30 +483,9 @@
 
 <body>
   <div class="overlay" id="overlay" onclick="closeAllPopups()"></div>
-  
-  <!-- 🛒 ไอคอนตะกร้าสำหรับมือถือ -->
-  <button class="cart-icon" id="cartIcon" onclick="playClick(); vibrate(); openMobileCart()">
-    🛒
-    <span class="cart-badge" id="cartBadge">0</span>
-  </button>
-
-  <!-- 🛒 Popup ตะกร้าสำหรับมือถือ -->
-  <div class="mobile-cart-popup" id="mobileCartPopup">
-    <div class="mobile-cart-header">
-      <h3>🛒 รายการสั่งซื้อ</h3>
-      <button class="close-cart" onclick="playClick(); vibrate(); closeMobileCart()">×</button>
-    </div>
-    <div id="mobileOrderItems"></div>
-    <div class="summary-total" id="mobileTotalSummary"></div>
-    <button onclick="playClick(); vibrate(); promptDiscountAuth()">🎁 ส่วนลด</button>
-    <button onclick="playClick(); vibrate(); submitOrder()">✅ ชำระเงิน</button>
-    <button onclick="playClick(); vibrate(); cancelOrder()">❌ ยกเลิก</button>
-    <button onclick="playClick(); vibrate(); removeDiscount()">🧹 ลบส่วนลด</button>
-  </div>
-
   <header>
-    <button class="btn-nav" onclick="playClick(); vibrate(); goHome()">← Home</button>
-    <button class="btn-nav" onclick="playClick(); vibrate(); goBack()">← Back</button>
+    <button class="btn-nav" onclick="playClick(); goHome()">← Home</button>
+    <button class="btn-nav" onclick="playClick(); goBack()">← Back</button>
   </header>
   <h1>เมนูอาหาร</h1>
 
@@ -601,10 +494,10 @@
       <h3>รายการสั่งซื้อ</h3>
       <div id="orderItems"></div>
       <div class="summary-total" id="totalSummary"></div>
-      <button onclick="playClick(); vibrate(); promptDiscountAuth()">🎁 ส่วนลด</button>
-      <button onclick="playClick(); vibrate(); submitOrder()">✅ ชำระเงิน</button>
-      <button onclick="playClick(); vibrate(); cancelOrder()">❌ ยกเลิก</button>
-      <button onclick="playClick(); vibrate(); removeDiscount()">🧹 ลบส่วนลด</button>
+      <button onclick="playClick(); promptDiscountAuth()">🎁 ส่วนลด</button>
+      <button onclick="playClick(); submitOrder()">✅ ชำระเงิน</button>
+      <button onclick="playClick(); cancelOrder()">❌ ยกเลิก</button>
+      <button onclick="playClick(); removeDiscount()">🧹 ลบส่วนลด</button>
     </div>
     <div class="menu-grid" id="menuGrid">กำลังโหลดเมนู...</div>
   </div>
@@ -613,12 +506,12 @@
   <div class="popup" id="discountPopup">
     <h3 style="color:#0047AB; margin-bottom:14px;">🎁 เลือกระดับส่วนลด</h3>
     <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-      <button class="discount-btn" onclick="playClick(); vibrate(); applyDiscount(5)">5%</button>
-      <button class="discount-btn" onclick="playClick(); vibrate(); applyDiscount(10)">10%</button>
-      <button class="discount-btn" onclick="playClick(); vibrate(); applyDiscount(15)">15%</button>
-      <button class="discount-btn" onclick="playClick(); vibrate(); applyDiscount(20)">20%</button>
+      <button class="discount-btn" onclick="playClick(); applyDiscount(5)">5%</button>
+      <button class="discount-btn" onclick="playClick(); applyDiscount(10)">10%</button>
+      <button class="discount-btn" onclick="playClick(); applyDiscount(15)">15%</button>
+      <button class="discount-btn" onclick="playClick(); applyDiscount(20)">20%</button>
     </div>
-    <button class="discount-clear-btn" onclick="playClick(); vibrate(); removeDiscount()">🧹 ล้างส่วนลด</button>
+    <button class="discount-clear-btn" onclick="playClick(); removeDiscount()">🧹 ล้างส่วนลด</button>
   </div>
 
   <!-- Popup ยืนยันรหัส -->
@@ -626,18 +519,18 @@
     <h3>กรอกรหัสยืนยัน</h3>
     <input id="pinInput" type="password" maxlength="6" readonly>
     <div class="keypad">
-      <button onclick="playClick(); vibrate(); appendPin('1')">1</button>
-      <button onclick="playClick(); vibrate(); appendPin('2')">2</button>
-      <button onclick="playClick(); vibrate(); appendPin('3')">3</button>
-      <button onclick="playClick(); vibrate(); appendPin('4')">4</button>
-      <button onclick="playClick(); vibrate(); appendPin('5')">5</button>
-      <button onclick="playClick(); vibrate(); appendPin('6')">6</button>
-      <button onclick="playClick(); vibrate(); appendPin('7')">7</button>
-      <button onclick="playClick(); vibrate(); appendPin('8')">8</button>
-      <button onclick="playClick(); vibrate(); appendPin('9')">9</button>
-      <button onclick="playClick(); vibrate(); clearPin()">C</button>
-      <button onclick="playClick(); vibrate(); appendPin('0')">0</button>
-      <button onclick="playClick(); vibrate(); submitPin()">✅</button>
+      <button onclick="playClick(); appendPin('1')">1</button>
+      <button onclick="playClick(); appendPin('2')">2</button>
+      <button onclick="playClick(); appendPin('3')">3</button>
+      <button onclick="playClick(); appendPin('4')">4</button>
+      <button onclick="playClick(); appendPin('5')">5</button>
+      <button onclick="playClick(); appendPin('6')">6</button>
+      <button onclick="playClick(); appendPin('7')">7</button>
+      <button onclick="playClick(); appendPin('8')">8</button>
+      <button onclick="playClick(); appendPin('9')">9</button>
+      <button onclick="playClick(); clearPin()">C</button>
+      <button onclick="playClick(); appendPin('0')">0</button>
+      <button onclick="playClick(); submitPin()">✅</button>
     </div>
   </div>
 
@@ -647,18 +540,18 @@
     <p>ยอดที่ต้องชำระ: <strong><span id="cashAmount"></span> ฿</strong></p>
     <input type="text" id="cashInput" readonly placeholder="จำนวนเงินที่ลูกค้าชำระ" />
     <div class="keypad">
-      <button onclick="playClick(); vibrate(); appendCash('1')">1</button>
-      <button onclick="playClick(); vibrate(); appendCash('2')">2</button>
-      <button onclick="playClick(); vibrate(); appendCash('3')">3</button>
-      <button onclick="playClick(); vibrate(); appendCash('4')">4</button>
-      <button onclick="playClick(); vibrate(); appendCash('5')">5</button>
-      <button onclick="playClick(); vibrate(); appendCash('6')">6</button>
-      <button onclick="playClick(); vibrate(); appendCash('7')">7</button>
-      <button onclick="playClick(); vibrate(); appendCash('8')">8</button>
-      <button onclick="playClick(); vibrate(); appendCash('9')">9</button>
-      <button onclick="playClick(); vibrate(); clearCash()">C</button>
-      <button onclick="playClick(); vibrate(); appendCash('0')">0</button>
-      <button onclick="playClick(); vibrate(); confirmCash()">✅</button>
+      <button onclick="playClick(); appendCash('1')">1</button>
+      <button onclick="playClick(); appendCash('2')">2</button>
+      <button onclick="playClick(); appendCash('3')">3</button>
+      <button onclick="playClick(); appendCash('4')">4</button>
+      <button onclick="playClick(); appendCash('5')">5</button>
+      <button onclick="playClick(); appendCash('6')">6</button>
+      <button onclick="playClick(); appendCash('7')">7</button>
+      <button onclick="playClick(); appendCash('8')">8</button>
+      <button onclick="playClick(); appendCash('9')">9</button>
+      <button onclick="playClick(); clearCash()">C</button>
+      <button onclick="playClick(); appendCash('0')">0</button>
+      <button onclick="playClick(); confirmCash()">✅</button>
     </div>
     <p id="changeDisplay" style="margin-top:8px;font-weight:600;"></p>
   </div>
@@ -668,17 +561,17 @@
     <h3>สแกนเพื่อชำระเงิน</h3>
     <img id="qrImage" src="kshop.jpg" alt="QR Code">
     <p>กรุณาชำระยอด <strong><span id="qrAmount"></span> ฿</strong></p>
-    <button onclick="playClick(); vibrate(); confirmQR()">✅ ชำระเงินเสร็จแล้ว</button>
+    <button onclick="playClick(); confirmQR()">✅ ชำระเงินเสร็จแล้ว</button>
   </div>
 
   <!-- Popup การชำระเงิน -->
-  <div class="popup" id="paymentPopup">
-    <h3>เลือกวิธีชำระเงิน</h3>
-    <div class="payment-buttons">
-      <button onclick="playClick(); vibrate(); payCash()">💵 เงินสด</button>
-      <button onclick="playClick(); vibrate(); payQR()">📱 QR Code</button>
-    </div>
+<div class="popup" id="paymentPopup">
+  <h3>เลือกวิธีชำระเงิน</h3>
+  <div class="payment-buttons">
+    <button onclick="playClick(); payCash()">💵 เงินสด</button>
+    <button onclick="playClick(); payQR()">📱 QR Code</button>
   </div>
+</div>
 
   <!-- Popup ใบเสร็จ -->
   <div class="popup" id="receiptPopup" style="width:360px;text-align:left;">
@@ -692,28 +585,12 @@
     <h4 style="text-align:center;">ใบกำกับภาษีอย่างย่อ/🧾 ใบเสร็จรับเงิน</h4>
     <div id="receiptDetails"></div>
     <h5 style="text-align:center;">ขอขอบพระคุณลูกค้าที่มาอุดหนุน</h5>
-    <button onclick="playClick(); vibrate(); window.print()">🖨️ พิมพ์ใบเสร็จ</button>
-    <button onclick="playClick(); vibrate(); closeReceipt()">กลับหน้าแรก</button>
+    <button onclick="playClick(); window.print()">🖨️ พิมพ์ใบเสร็จ</button>
+    <button onclick="playClick(); closeReceipt()">กลับหน้าแรก</button>
   </div>
 
   <script>
     let order = {}, discountPercent = 0;
-
-    // ---------------- เสียงและการสั่น ----------------
-    function playClick() {
-      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZSR0PVKrn77BfGAg+ltrzxHMpBSuAzvLajTgJGGe37+OdTQ0OUKXh8bllHAU7k9j0yoEtBiV5xu7hlUkdD1Ko5O+wXxcIPZPY88NyKAUrgM3y2Yw4ChhnuO/jnUwODlCl4fG5ZRwFO5PY9MqBLQYlecbu4ZVJGw9UqOTvsF8XCDyS1/PEcicFK3/N8dmNOAoYZ7jv451MDg5QpOHxuWYcBTuS2PTKgS0GJXnG7uGVSRsPVKjk77BfFwg8ktf0xHInBSt/zfHZjDcKGGe47+OdSw4OUKXh8blmHAU7k9j0yoEtBiV5xu7hlUkbD1So5O+wXxcIO5LX9MRyJwUrfs3x2Y03ChhnuO/jnUsODlCl4fG5ZhwEO5PY9MqBLQYlecbu4ZVJGw9UqOTvsF8XCDuS1/TEcicFK37N8dmNNwoYZ7jv450MDg5QpeHxuWUcBTuT2PTKgS0GJXnG7uGVSBsPVKjk77BeGAg7ktf0xHInBSt+zfHZjTcKGGe47+OdSw4OUKXh8blmHAU7k9j0yoEtBiV5xu7hlUkbD1So5O+wXhgIO5LX9MRyJwUrfs3x2Y03ChhnuO/jnUwODlCl4fG5ZhwFO5PY9MqBLQYlecbu4ZVJGw9UqOTvsF4YCDuS1/TEcigFK37N8dmNOAoYZ7jv451MDg5QpeHxuWYcBTuT2PTKgS0GJXnG7uGVSRsPVKfk77BeGAg7ktf0xHInBSt+zfHZjTcKGGe47+OdTA4OUKXh8blmHAU7k9j0yoEtBiV5xu7hlUkbD1Sn5O+wXhgIO5LX9MRyJwUrfs3x2Y04ChhnuO/jnUwODlCl4fG5ZhwFO5PY9MqBLQYlecbu4ZVJGw9Up+TvsF4YCDuS1/TEcigFK37N8dmNOAoYZ7jv451MDg5QpeHxuWYcBTuT2PTKgS0GJXnG7uGVSRsPVKfk77BeGAg7ktf0xHInBSt+zfHZjTgKF2e47+OdTA4OUKXh8blmHAU7k9j0yoEtBiV5xu7hlUkbD1Sn5O+wXhgIO5
-// ---------------- เสียงและการสั่น ----------------
-    function playClick() {
-      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZSR0PVKrn77BfGAg+ltrzxHMpBSuAzvLajTgJGGe37+OdTQ0OUKXh8bllHAU7k9j0yoEtBiV5xu7hlUkdD1Ko5O+wXxcIPZPY88NyKAUrgM3y2Yw4ChhnuO/jnUwODlCl4fG5ZRwFO5PY9MqBLQYlecbu4ZVJGw9UqOTvsF8XCDyS1/PEcicFK3/N8dmNOAoYZ7jv451MDg5QpOHxuWYcBTuS2PTKgS0GJXnG7uGVSRsPVKjk77BfFwg8ktf0xHInBSt/zfHZjDcKGGe47+OdSw4OUKXh8blmHAU7k9j0yoEtBiV5xu7hlUkbD1So5O+wXxcIO5LX9MRyJwUrfs3x2Y03ChhnuO/jnUsODlCl4fG5ZhwEO5PY9MqBLQYlecbu4ZVJGw9UqOTvsF8XCDuS1/TEcicFK37N8dmNNwoYZ7jv450MDg5QpeHxuWUcBTuT2PTKgS0GJXnG7uGVSBsPVKjk77BeGAg7ktf0xHInBSt+zfHZjTcKGGe47+OdSw4OUKXh8blmHAU7k9j0yoEtBiV5xu7hlUkbD1So5O+wXhgIO5LX9MRyJwUrfs3x2Y03ChhnuO/jnUwODlCl4fG5ZhwFO5PY9MqBLQYlecbu4ZVJGw9UqOTvsF4YCDuS1/TEcigFK37N8dmNOAoYZ7jv451MDg5QpeHxuWYcBTuT2PTKgS0GJXnG7uGVSRsPVKfk77BeGAg7ktf0xHInBSt+zfHZjTcKGGe47+OdTA4OUKXh8blmHAU7k9j0yoEtBiV5xu7hlUkbD1Sn5O+wXhgIO5LX9MRyJwUrfs3x2Y04ChhnuO/jnUwODlCl4fG5ZhwFO5PY9MqBLQYlecbu4ZVJGw9Up+TvsF4YCDuS1/TEcigFK37N8dmNOAoYZ7jv451MDg5QpeHxuWYcBTuT2PTKgS0GJXnG7uGVSRsPVKfk77BeGAg7ktf0xHInBSt+zfHZjTgKF2e47+OdTA4OUKXh8blmHAU7k9j0yoEtBiV5xu7hlUkbD1Sn5O+wXhgIO5LX9MRyJwUrfs3x2Y04ChhnuO/jnUwODlCl4fG5ZhwFO5PY9MqBLQYlecbu4ZVJGw9Up+TvsF4YCDuS1/TEcigFK37N8dmNOAoYZ7jv451MDg5QpeHxuWYcBTuT2PTKgS0GJXnG7uGWSRsPVKfk77BeGAg7ktf0xHInBSt+zfHZjTgKGGe47+OdTA4OUKXh8bllHAU7k9j0yoEtBiV5xu7hlUkbD1Sn5O+wXxgIO5LX9MRyJwUrfs3x2Y04ChhnuO/jnUsODlCl4fG5ZRwFO5PY9MqBLQYlecbu4ZVJHA==');
-      audio.volume = 0.3;
-      audio.play().catch(() => {});
-    }
-
-    function vibrate() {
-      if ('vibrate' in navigator) {
-        navigator.vibrate(50);
-      }
-    }
 
     // ---------------- Popup Control ----------------
     function showPopup(id) {
@@ -723,29 +600,10 @@
     function closeAllPopups() {
       document.querySelectorAll('.popup').forEach(p => p.style.display = 'none');
       document.getElementById('overlay').style.display = 'none';
-      closeMobileCart();
-    }
-
-    // ---------------- Mobile Cart Functions ----------------
-    function openMobileCart() {
-      document.getElementById('mobileCartPopup').classList.add('show');
-      document.getElementById('overlay').style.display = 'block';
-    }
-
-    function closeMobileCart() {
-      document.getElementById('mobileCartPopup').classList.remove('show');
-    }
-
-    function updateCartBadge() {
-      const totalItems = Object.values(order).reduce((sum, item) => sum + item.quantity, 0);
-      document.getElementById('cartBadge').textContent = totalItems;
     }
 
     // ---------------- ส่วนลด ----------------
-    function promptDiscountAuth() { 
-      closeMobileCart();
-      showPopup('authPopup'); 
-    }
+    function promptDiscountAuth() { showPopup('authPopup'); }
     function submitPin() {
       const pin = document.getElementById('pinInput').value;
       if (pin === '000000') {
@@ -764,7 +622,6 @@
     }
     function removeDiscount() {
       discountPercent = 0;
-      closeAllPopups();
       updateSummary();
     }
 
@@ -779,8 +636,6 @@
 
     // ---------------- ฟังก์ชันสั่งอาหาร ----------------
     function addToOrder(item) {
-      playClick();
-      vibrate();
       const n = item.name, p = Number(item.price);
       if (!order[n]) order[n] = { price: p, quantity: 1 };
       else order[n].quantity++;
@@ -798,13 +653,6 @@
       updateSummary();
     }
     function updateSummary() {
-      // อัปเดตทั้งสองส่วน (Desktop และ Mobile)
-      updateDesktopSummary();
-      updateMobileSummary();
-      updateCartBadge();
-    }
-
-    function updateDesktopSummary() {
       const s = document.getElementById('orderSummary'),
         items = document.getElementById('orderItems'),
         t = document.getElementById('totalSummary');
@@ -817,10 +665,10 @@
           <div class='order-item'>
             <div>${n}</div>
             <div class='controls'>
-              <button onclick="playClick(); vibrate(); changeQty('${n}',-1)">-</button>
+              <button onclick="changeQty('${n}',-1)">-</button>
               <span>${it.quantity}</span>
-              <button onclick="playClick(); vibrate(); changeQty('${n}',1)">+</button>
-              <button onclick="playClick(); vibrate(); removeItem('${n}')">🗑️</button>
+              <button onclick="changeQty('${n}',1)">+</button>
+              <button onclick="removeItem('${n}')">🗑️</button>
             </div>
           </div>`;
       }
@@ -835,42 +683,12 @@
       s.style.display = Object.keys(order).length ? 'block' : 'none';
     }
 
-    function updateMobileSummary() {
-      const items = document.getElementById('mobileOrderItems'),
-        t = document.getElementById('mobileTotalSummary');
-      items.innerHTML = '';
-      let subtotal = 0;
-      for (const n in order) {
-        const it = order[n];
-        subtotal += it.price * it.quantity;
-        items.innerHTML += `
-          <div class='order-item'>
-            <div>${n}</div>
-            <div class='controls'>
-              <button onclick="playClick(); vibrate(); changeQty('${n}',-1)">-</button>
-              <span>${it.quantity}</span>
-              <button onclick="playClick(); vibrate(); changeQty('${n}',1)">+</button>
-              <button onclick="playClick(); vibrate(); removeItem('${n}')">🗑️</button>
-            </div>
-          </div>`;
-      }
-      const discount = subtotal * (discountPercent / 100),
-        vat = (subtotal - discount) * 0.07,
-        net = subtotal - discount + vat;
-      t.innerHTML = `
-        ยอดรวม: ${subtotal.toFixed(2)} ฿<br>
-        ส่วนลด (${discountPercent}%): ${discount.toFixed(2)} ฿<br>
-        VAT 7%: ${vat.toFixed(2)} ฿<br>
-        <strong>ราคาสุทธิ: ${net.toFixed(2)} ฿</strong>`;
-    }
-
     // ---------------- การชำระเงิน ----------------
     function submitOrder() {
       if (Object.keys(order).length === 0) {
         alert('ยังไม่มีรายการสั่งซื้อ');
         return;
       }
-      closeMobileCart();
       showPopup('paymentPopup');
     }
     function cancelOrder() {
@@ -878,7 +696,6 @@
         order = {};
         discountPercent = 0;
         updateSummary();
-        closeMobileCart();
       }
     }
 
@@ -915,97 +732,161 @@
     }
 
     function confirmCash() {
-      const paid = parseFloat(document.getElementById('cashInput').value);
-      const total = getTotal();
-      if (isNaN(paid) || paid < total) {
-        alert('จำนวนเงินไม่เพียงพอ');
+      const paid = Number(document.getElementById('cashInput').value);
+      const t = getTotal();
+      if (isNaN(paid) || paid <= 0) {
+        alert('กรุณาใส่จำนวนเงินที่ลูกค้าชำระ');
         return;
       }
-      const change = paid - total;
+      if (paid < t) {
+        alert('จำนวนเงินไม่พอ');
+        return;
+      }
+      const change = paid - t;
       document.getElementById('changeDisplay').innerText = `เงินทอน: ${change.toFixed(2)} ฿`;
       setTimeout(() => {
-        closeAllPopups();
-        showReceipt('เงินสด');
-      }, 1500);
+        showReceipt('เงินสด', paid, change);
+      }, 800);
     }
-
     function confirmQR() {
-      closeAllPopups();
-      showReceipt('QR Code');
+      showReceipt('QR Code', 0, 0);
     }
 
-    // ---------------- แสดงใบเสร็จ ----------------
-    function showReceipt(method) {
-      const details = document.getElementById('receiptDetails');
-      let subtotal = 0;
-      let html = '<table class="receipt-table"><tr><th>รายการ</th><th>จำนวน</th><th>ราคา</th></tr>';
+    // ---------------- ใบเสร็จ ----------------
+    function showReceipt(method, paid, change) {
+      closeAllPopups();
+      let html = `
+<table class="receipt-table">
+  <tr>
+    <th style="width:60%; text-align:left;">รายการ</th>
+    <th style="width:20%; text-align:center;">จำนวน</th>
+    <th style="width:20%; text-align:right;">ราคา</th>
+  </tr>`;
+      let subtotal = 0, totalQty = 0;
+
       for (const n in order) {
         const it = order[n];
-        const total = it.price * it.quantity;
-        subtotal += total;
-        html += `<tr><td>${n}</td><td>${it.quantity}</td><td>${total.toFixed(2)}</td></tr>`;
+        subtotal += it.price * it.quantity;
+        totalQty += it.quantity;
+        html += `
+  <tr>
+    <td>${n}</td>
+    <td style="text-align:center;">${it.quantity}</td>
+    <td style="text-align:right;">${(it.price * it.quantity).toFixed(2)}</td>
+  </tr>`;
       }
+
       const discount = subtotal * (discountPercent / 100);
       const vat = (subtotal - discount) * 0.07;
       const net = subtotal - discount + vat;
-      html += `</table><hr>`;
-      html += `<p>ยอดรวม: ${subtotal.toFixed(2)} ฿</p>`;
-      html += `<p>ส่วนลด (${discountPercent}%): ${discount.toFixed(2)} ฿</p>`;
-      html += `<p>VAT 7%: ${vat.toFixed(2)} ฿</p>`;
-      html += `<p><strong>ราคาสุทธิ: ${net.toFixed(2)} ฿</strong></p>`;
-      html += `<p>วิธีชำระเงิน: ${method}</p>`;
-      html += `<p>วันที่: ${new Date().toLocaleString('th-TH')}</p>`;
-      details.innerHTML = html;
-      showPopup('receiptPopup');
-    }
 
-    function closeReceipt() {
-      closeAllPopups();
+      // เพิ่มบรรทัดนี้ไว้ก่อนปิด </table>
+      html += `
+<tr>
+  <td colspan="3" style="text-align:left; font-weight:bold;">
+    รวมทั้งหมด: ${totalQty} รายการ
+  </td>
+</tr>
+</table>
+
+<div style="display:flex; justify-content:space-between; margin-top:10px; line-height:1.6;">
+  <!-- ฝั่งซ้าย -->
+  <div style="text-align:left;">
+    วิธีชำระ: ${method}<br>
+    ${method === 'เงินสด' ? `ชำระมา: ${paid.toFixed(2)} ฿<br>เงินทอน: ${change.toFixed(2)} ฿<br>` : ''}
+    วันที่: ${new Date().toLocaleString('th-TH')}
+  </div>
+
+  <!-- ฝั่งขวา -->
+  <div style="text-align:right;">
+    ยอดรวม: ${subtotal.toFixed(2)} ฿<br>
+    ส่วนลด (${discountPercent}%): ${discount.toFixed(2)} ฿<br>
+    VAT 7%: ${vat.toFixed(2)} ฿<br>
+    <strong>ราคาสุทธิ: ${net.toFixed(2)} ฿</strong>
+  </div>
+</div>`;
+
+      document.getElementById('receiptDetails').innerHTML = html;
+      showPopup('receiptPopup');
       order = {};
       discountPercent = 0;
       updateSummary();
     }
 
-    // ---------------- Navigation ----------------
-    function goHome() {
-      window.location.href = 'index.html';
-    }
-    function goBack() {
-      window.history.back();
-    }
 
-    // ---------------- โหลดเมนู ----------------
-    window.onload = function() {
-      const menuGrid = document.getElementById('menuGrid');
-      const menuItems = [
-        { name: 'บะหมี่เกี๊ยว', price: 40 },
-        { name: 'บะหมี่หมูแดง', price: 40 },
-        { name: 'บะหมี่ต้มยำ', price: 45 },
-        { name: 'เกี๊ยวน้ำ', price: 35 },
-        { name: 'ข้าวขาหมู', price: 50 },
-        { name: 'ข้าวหมูแดง', price: 45 },
-        { name: 'น้ำเปล่า', price: 10 },
-        { name: 'น้ำอัดลม', price: 15 },
-      ];
+    function closeReceipt() { closeAllPopups(); }
 
-      menuGrid.innerHTML = '';
-      menuItems.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'menu-item';
-        div.onclick = () => addToOrder(item);
-        div.innerHTML = `
-          <div class="image-placeholder">🍜</div>
-          <h4>${item.name}</h4>
-          <p>${item.price} ฿</p>
-        `;
-        menuGrid.appendChild(div);
+    // ---------------- หน้าเมนู ----------------
+    function goHome() { window.location.href = 'index.html'; }
+    function goBack() { window.history.back(); }
+
+    // เพิ่มเสียงให้เมนูอาหารตอนกด
+    fetch("https://script.google.com/macros/s/AKfycbwvYTBu1lZ-IukUtsg2ylzALbEEoYARxjgyWh7VmTDP9lTXhs6Axv7uNcRIE3DCGjaQ/exec")
+      .then(r => r.json())
+      .then(data => {
+        const g = document.getElementById('menuGrid');
+        g.innerHTML = '';
+        data.forEach(it => {
+          const d = document.createElement('div');
+          d.className = 'menu-item';
+          d.innerHTML = `
+            <div class='image-placeholder'>[รูปอาหาร]</div>
+            <div>${it.name}</div>
+            <div>${it.price} บาท</div>`;
+          d.onclick = () => { playClick(); addToOrder(it); };
+          g.appendChild(d);
+        });
       });
-    };
+  </script>
 
-    // ปิดตะกร้าเมื่อแตะพื้นหลัง
-    document.getElementById('overlay').addEventListener('click', function() {
-      closeMobileCart();
+  <!-- 🔊 ระบบเสียงและสั่น -->
+  <script>
+    let audioCtx;
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function playClick() {
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = "square";
+      osc.frequency.value = 550;
+      gain.gain.value = 0.08;
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.1);
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+
+    function playError() {
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = "sawtooth";
+      osc.frequency.value = 180;
+      gain.gain.value = 0.12;
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.25);
+      if (navigator.vibrate) navigator.vibrate([100,60,100]);
+    }
+
+    // ให้ทุกปุ่มมีเสียงคลิก
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("button,a").forEach(el => {
+        el.addEventListener("click", playClick);
+      });
     });
+
+    // เสียงตอนแจ้งเตือน error
+    const _alert = window.alert;
+    window.alert = function(msg) {
+      playError();
+      _alert(msg);
+    };
   </script>
 
 </body>

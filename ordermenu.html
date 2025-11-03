@@ -462,8 +462,8 @@
 <body>
   <div class="overlay" id="overlay" onclick="closeAllPopups()"></div>
   <header>
-    <button class="btn-nav" onclick="goHome()">← Home</button>
-    <button class="btn-nav" onclick="goBack()">← Back</button>
+    <button class="btn-nav" onclick="playClick(); goHome()">← Home</button>
+    <button class="btn-nav" onclick="playClick(); goBack()">← Back</button>
   </header>
   <h1>เมนูอาหาร</h1>
 
@@ -472,10 +472,10 @@
       <h3>รายการสั่งซื้อ</h3>
       <div id="orderItems"></div>
       <div class="summary-total" id="totalSummary"></div>
-      <button onclick="promptDiscountAuth()">🎁 ส่วนลด</button>
-      <button onclick="submitOrder()">✅ ชำระเงิน</button>
-      <button onclick="cancelOrder()">❌ ยกเลิก</button>
-      <button onclick="removeDiscount()">🧹 ลบส่วนลด</button>
+      <button onclick="playClick(); promptDiscountAuth()">🎁 ส่วนลด</button>
+      <button onclick="playClick(); submitOrder()">✅ ชำระเงิน</button>
+      <button onclick="playClick(); cancelOrder()">❌ ยกเลิก</button>
+      <button onclick="playClick(); removeDiscount()">🧹 ลบส่วนลด</button>
     </div>
     <div class="menu-grid" id="menuGrid">กำลังโหลดเมนู...</div>
   </div>
@@ -484,43 +484,33 @@
   <div class="popup" id="discountPopup">
     <h3 style="color:#0047AB; margin-bottom:14px;">🎁 เลือกระดับส่วนลด</h3>
     <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-      <button class="discount-btn" onclick="applyDiscount(5)">5%</button>
-      <button class="discount-btn" onclick="applyDiscount(10)">10%</button>
-      <button class="discount-btn" onclick="applyDiscount(15)">15%</button>
-      <button class="discount-btn" onclick="applyDiscount(20)">20%</button>
+      <button class="discount-btn" onclick="playClick(); applyDiscount(5)">5%</button>
+      <button class="discount-btn" onclick="playClick(); applyDiscount(10)">10%</button>
+      <button class="discount-btn" onclick="playClick(); applyDiscount(15)">15%</button>
+      <button class="discount-btn" onclick="playClick(); applyDiscount(20)">20%</button>
     </div>
-    <button class="discount-clear-btn" onclick="removeDiscount()">🧹 ล้างส่วนลด</button>
+    <button class="discount-clear-btn" onclick="playClick(); removeDiscount()">🧹 ล้างส่วนลด</button>
   </div>
-
 
   <!-- Popup ยืนยันรหัส -->
   <div class="popup" id="authPopup">
     <h3>กรอกรหัสยืนยัน</h3>
     <input id="pinInput" type="password" maxlength="6" readonly>
     <div class="keypad">
-      <button onclick="appendPin('1')">1</button>
-      <button onclick="appendPin('2')">2</button>
-      <button onclick="appendPin('3')">3</button>
-      <button onclick="appendPin('4')">4</button>
-      <button onclick="appendPin('5')">5</button>
-      <button onclick="appendPin('6')">6</button>
-      <button onclick="appendPin('7')">7</button>
-      <button onclick="appendPin('8')">8</button>
-      <button onclick="appendPin('9')">9</button>
-      <button onclick="clearPin()">C</button>
-      <button onclick="appendPin('0')">0</button>
-      <button onclick="submitPin()">✅</button>
+      <button onclick="playClick(); appendPin('1')">1</button>
+      <button onclick="playClick(); appendPin('2')">2</button>
+      <button onclick="playClick(); appendPin('3')">3</button>
+      <button onclick="playClick(); appendPin('4')">4</button>
+      <button onclick="playClick(); appendPin('5')">5</button>
+      <button onclick="playClick(); appendPin('6')">6</button>
+      <button onclick="playClick(); appendPin('7')">7</button>
+      <button onclick="playClick(); appendPin('8')">8</button>
+      <button onclick="playClick(); appendPin('9')">9</button>
+      <button onclick="playClick(); clearPin()">C</button>
+      <button onclick="playClick(); appendPin('0')">0</button>
+      <button onclick="playClick(); submitPin()">✅</button>
     </div>
   </div>
-
-  <div class="popup" id="paymentPopup">
-    <h3>เลือกวิธีชำระเงิน</h3>
-    <div class="payment-buttons">
-      <button onclick="payCash()">💵 เงินสด</button>
-      <button onclick="payQR()">📱 QR Code</button>
-    </div>
-  </div>
-
 
   <!-- Popup เงินสด -->
   <div class="popup" id="cashPopup">
@@ -528,18 +518,18 @@
     <p>ยอดที่ต้องชำระ: <strong><span id="cashAmount"></span> ฿</strong></p>
     <input type="text" id="cashInput" readonly placeholder="จำนวนเงินที่ลูกค้าชำระ" />
     <div class="keypad">
-      <button onclick="appendCash('1')">1</button>
-      <button onclick="appendCash('2')">2</button>
-      <button onclick="appendCash('3')">3</button>
-      <button onclick="appendCash('4')">4</button>
-      <button onclick="appendCash('5')">5</button>
-      <button onclick="appendCash('6')">6</button>
-      <button onclick="appendCash('7')">7</button>
-      <button onclick="appendCash('8')">8</button>
-      <button onclick="appendCash('9')">9</button>
-      <button onclick="clearCash()">C</button>
-      <button onclick="appendCash('0')">0</button>
-      <button onclick="confirmCash()">✅</button>
+      <button onclick="playClick(); appendCash('1')">1</button>
+      <button onclick="playClick(); appendCash('2')">2</button>
+      <button onclick="playClick(); appendCash('3')">3</button>
+      <button onclick="playClick(); appendCash('4')">4</button>
+      <button onclick="playClick(); appendCash('5')">5</button>
+      <button onclick="playClick(); appendCash('6')">6</button>
+      <button onclick="playClick(); appendCash('7')">7</button>
+      <button onclick="playClick(); appendCash('8')">8</button>
+      <button onclick="playClick(); appendCash('9')">9</button>
+      <button onclick="playClick(); clearCash()">C</button>
+      <button onclick="playClick(); appendCash('0')">0</button>
+      <button onclick="playClick(); confirmCash()">✅</button>
     </div>
     <p id="changeDisplay" style="margin-top:8px;font-weight:600;"></p>
   </div>
@@ -549,7 +539,7 @@
     <h3>สแกนเพื่อชำระเงิน</h3>
     <img id="qrImage" src="kshop.jpg" alt="QR Code">
     <p>กรุณาชำระยอด <strong><span id="qrAmount"></span> ฿</strong></p>
-    <button onclick="confirmQR()">✅ ชำระเงินเสร็จแล้ว</button>
+    <button onclick="playClick(); confirmQR()">✅ ชำระเงินเสร็จแล้ว</button>
   </div>
 
   <!-- Popup ใบเสร็จ -->
@@ -564,9 +554,10 @@
     <h4 style="text-align:center;">ใบกำกับภาษีอย่างย่อ/🧾 ใบเสร็จรับเงิน</h4>
     <div id="receiptDetails"></div>
     <h5 style="text-align:center;">ขอขอบพระคุณลูกค้าที่มาอุดหนุน</h5>
-    <button onclick="window.print()">🖨️ พิมพ์ใบเสร็จ</button>
-    <button onclick="closeReceipt()">กลับหน้าแรก</button>
+    <button onclick="playClick(); window.print()">🖨️ พิมพ์ใบเสร็จ</button>
+    <button onclick="playClick(); closeReceipt()">กลับหน้าแรก</button>
   </div>
+
   <script>
     let order = {}, discountPercent = 0;
 
@@ -798,7 +789,7 @@
     function goHome() { window.location.href = 'index.html'; }
     function goBack() { window.history.back(); }
 
-    // ---------------- โหลดเมนูจาก Google Script ----------------
+    // เพิ่มเสียงให้เมนูอาหารตอนกด
     fetch("https://script.google.com/macros/s/AKfycbwvYTBu1lZ-IukUtsg2ylzALbEEoYARxjgyWh7VmTDP9lTXhs6Axv7uNcRIE3DCGjaQ/exec")
       .then(r => r.json())
       .then(data => {
@@ -811,42 +802,61 @@
             <div class='image-placeholder'>[รูปอาหาร]</div>
             <div>${it.name}</div>
             <div>${it.price} บาท</div>`;
-          d.onclick = () => addToOrder(it);
+          d.onclick = () => { playClick(); addToOrder(it); };
           g.appendChild(d);
         });
       });
   </script>
 
-<script>
-const clickSound = new AudioContext();
-function playClick(){
-  const o = clickSound.createOscillator();
-  const g = clickSound.createGain();
-  o.connect(g); g.connect(clickSound.destination);
-  o.type = "square"; o.frequency.setValueAtTime(600, clickSound.currentTime);
-  g.gain.setValueAtTime(0.05, clickSound.currentTime);
-  o.start(); o.stop(clickSound.currentTime + 0.1);
-  if (navigator.vibrate) navigator.vibrate(40);
-}
-function playError(){
-  const o = clickSound.createOscillator();
-  const g = clickSound.createGain();
-  o.connect(g); g.connect(clickSound.destination);
-  o.type = "sawtooth"; o.frequency.setValueAtTime(200, clickSound.currentTime);
-  g.gain.setValueAtTime(0.1, clickSound.currentTime);
-  o.start(); o.stop(clickSound.currentTime + 0.2);
-  if (navigator.vibrate) navigator.vibrate([100,60,100]);
-}
-document.addEventListener("DOMContentLoaded",()=>{
-  document.querySelectorAll('button,a').forEach(el=>{
-    el.addEventListener('click',playClick);
-  });
-});
-const _alert=window.alert;
-window.alert=function(msg){playError();_alert(msg);};
-</script>
+  <!-- 🔊 ระบบเสียงและสั่น -->
+  <script>
+    let audioCtx;
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function playClick() {
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = "square";
+      osc.frequency.value = 550;
+      gain.gain.value = 0.08;
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.1);
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+
+    function playError() {
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = "sawtooth";
+      osc.frequency.value = 180;
+      gain.gain.value = 0.12;
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.25);
+      if (navigator.vibrate) navigator.vibrate([100,60,100]);
+    }
+
+    // ให้ทุกปุ่มมีเสียงคลิก
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("button,a").forEach(el => {
+        el.addEventListener("click", playClick);
+      });
+    });
+
+    // เสียงตอนแจ้งเตือน error
+    const _alert = window.alert;
+    window.alert = function(msg) {
+      playError();
+      _alert(msg);
+    };
+  </script>
 
 </body>
-
-
 </html>

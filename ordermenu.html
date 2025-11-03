@@ -455,6 +455,28 @@
       transform: scale(1.05);
       background: linear-gradient(90deg, #666, #444);
     }
+
+    /* 📱 ปรับ layout สำหรับมือถือ */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .order-summary {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    margin: 0 0 10px 0;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
   </style>
 
 </head>
